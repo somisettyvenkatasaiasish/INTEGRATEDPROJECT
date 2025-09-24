@@ -22,8 +22,8 @@ services:
 
   backend:
     build:
-      context: ./springbackend      # go into springbackend folder
-      dockerfile: Dockerfile        # use its Dockerfile
+      context: ./springbackend      # folder with backend Dockerfile
+      dockerfile: Dockerfile        # Dockerfile name
     container_name: fileshare-backend
     restart: always
     environment:
@@ -35,18 +35,18 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8085:8080"
+      - "8085:8080"  # host port 8085 -> container 8080
     networks:
       - fileshare-net
 
   frontend:
     build:
-      context: ./reactfrontend      # go into reactfrontend folder
-      dockerfile: Dockerfile        # use its Dockerfile
+      context: ./reactfrontend      # folder with frontend Dockerfile
+      dockerfile: Dockerfile        # Dockerfile name
     container_name: fileshare-frontend
     restart: always
     ports:
-      - "8084:80"
+      - "8084:80"   # host port 8084 -> container 80
     depends_on:
       - backend
     networks:
