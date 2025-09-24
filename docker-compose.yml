@@ -1,4 +1,4 @@
-version: "3.9"
+/version: "3.9"
 
 services:
   db:
@@ -22,7 +22,7 @@ services:
 
   backend:
     build:
-      context: ./springbackend
+      context: ./project/springbackend
       dockerfile: Dockerfile
     container_name: fileshare-backend
     restart: always
@@ -41,7 +41,7 @@ services:
 
   frontend:
     build:
-      context: ./reactfrontend
+      context: ./project/reactfrontend
       dockerfile: Dockerfile
     container_name: fileshare-frontend
     restart: always
