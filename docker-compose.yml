@@ -22,12 +22,12 @@ services:
 
   backend:
     build:
-      context: .                           # current folder
-      dockerfile: Dockerfile.backend       # external Dockerfile
+      context: ./springbackend      # go into springbackend folder
+      dockerfile: Dockerfile        # use its Dockerfile
     container_name: fileshare-backend
     restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/filesharingdb
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/filesharingsystem
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Sai@Asish2005
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -35,18 +35,18 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "8085:8080"  # host 8085 -> container 8080
+      - "8085:8080"
     networks:
       - fileshare-net
 
   frontend:
     build:
-      context: .                           # current folder
-      dockerfile: Dockerfile.frontend      # external Dockerfile
+      context: ./reactfrontend      # go into reactfrontend folder
+      dockerfile: Dockerfile        # use its Dockerfile
     container_name: fileshare-frontend
     restart: always
     ports:
-      - "8084:80"   # host 8084 -> container 80
+      - "8084:80"
     depends_on:
       - backend
     networks:
