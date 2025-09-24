@@ -1,22 +1,17 @@
-# Stage 1: Build with Maven and Java 20
+# Stage 1: Build with Maven
 FROM maven:3.9.2-eclipse-temurin-20 AS build
 WORKDIR /app
 
-# Copy Maven files first for caching
+# Copy pom.xml first for caching
 COPY pom.xml .
 COPY src ./src
 
-# Build the Spring Boot application
+# Build JAR
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run with JDK
 FROM eclipse-temurin:20-jdk-alpine
 WORKDIR /app
-
-# Copy built JAR from build stage
 COPY --from=build /app/target/*.jar app.jar
-
 EXPOSE 8085
-
-# Run the Spring Boot JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
