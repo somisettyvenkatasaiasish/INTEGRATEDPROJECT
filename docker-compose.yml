@@ -1,3 +1,4 @@
+version: "3.9"
 
 services:
   db:
@@ -6,7 +7,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: filesharingsystem
-      MYSQL_ROOT_PASSWORD: 2300030858@Tt
+      MYSQL_ROOT_PASSWORD: Sai@Asish2005
     ports:
       - "3308:3306"  # host 3308 -> container 3306
     volumes:
@@ -14,21 +15,21 @@ services:
     networks:
       - fileshare-net
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pDeepunithya@023"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pSai@Asish2005"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   backend:
     build:
-      context: ./springbackend
-      dockerfile: Dockerfile
+      context: .                           # current folder
+      dockerfile: Dockerfile.backend       # external Dockerfile
     container_name: fileshare-backend
     restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/filesharingsystem
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/filesharingdb
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 2300030858@Tt
+      SPRING_DATASOURCE_PASSWORD: Sai@Asish2005
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
       db:
@@ -40,8 +41,8 @@ services:
 
   frontend:
     build:
-      context: ./reactfrontend
-      dockerfile: Dockerfile
+      context: .                           # current folder
+      dockerfile: Dockerfile.frontend      # external Dockerfile
     container_name: fileshare-frontend
     restart: always
     ports:
