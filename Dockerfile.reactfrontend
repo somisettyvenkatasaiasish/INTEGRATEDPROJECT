@@ -1,13 +1,23 @@
-# Build stage
-FROM node:20-alpine AS build
+# Stage 1: Build with Maven and Java 20
+FROM maven:3.9.2-eclipse-temurin-20 AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
 
-# Production stage
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Install git
+RUN apt-get update && apt-get install -y git
+
+# Clone backend repo
+RUN git clone https://github.com/somisettyvenkatasaiasish/FrontendDocker.git
+
+# Build the Spring Boot application
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run with JDK
+FROM eclipse-temurin:20-jdk-alpine
+WORKDIR /app
+
+# Copy built JAR
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8085
+
+# Run the Spring Boot JAR
+ENTRYPOINT ["java","-jar","app.jar"]
