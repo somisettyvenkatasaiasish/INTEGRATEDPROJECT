@@ -20,7 +20,7 @@ services:
 
   backend:
     build:
-      context: ./project/springbackend
+      context: ./springbackend
       dockerfile: Dockerfile
     container_name: fileshare-backend
     restart: always
@@ -39,7 +39,7 @@ services:
 
   frontend:
     build:
-      context: ./project/reactfrontend
+      context: ./reactfrontend
       dockerfile: Dockerfile
     container_name: fileshare-frontend
     restart: always
